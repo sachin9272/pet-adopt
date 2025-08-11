@@ -24,6 +24,10 @@ const petSchema = mongoose.Schema({
     },
     about:{
         type: String
+    },
+    user:{
+        type: mongoose.Types.ObjectId,
+        ref:"User"
     }
 },{timestamps:true});
 
