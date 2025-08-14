@@ -23,3 +23,9 @@ export const AddPet = async(req, res) => {
         return res.status(500).json({message:"Internal Server Error", success: false});
     }
 }
+
+const DeletePet = async(req, res) => {
+    const {petId} = req.params;
+    const deletedPet = await Pet.findByIdAndDelete(petId);
+    
+}
