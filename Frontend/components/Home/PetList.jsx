@@ -1,13 +1,19 @@
 import React from 'react';
-import { View, Text, Image, Dimensions } from 'react-native';
+import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
 import Colors from '../../constants/Colors';
+import {useRouter} from 'expo-router'
 
 const { width } = Dimensions.get('window');
 const cardWidth = (width - 60) / 2;
 
 export default function PetList({ pet }) {
+  const router = useRouter();
   return (
-    <View
+    <TouchableOpacity
+      onPress={()=> router.push({
+        pathname:'/pet-details',
+        params:pet
+      })}
       style={{
         padding:10,
         marginRight:15,
@@ -76,6 +82,6 @@ export default function PetList({ pet }) {
       >
         {pet.description}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 }
