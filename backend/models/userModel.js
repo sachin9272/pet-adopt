@@ -8,6 +8,12 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true
     },
+    imageUrl:{
+        type:String
+    },
+    clerkId:{
+        type: String
+    },
     password:{
         type: String
     }
