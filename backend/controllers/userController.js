@@ -1,5 +1,7 @@
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
+import Favourite from "../models/favouritePetModel.js";
+
 // import { verifyToken } from "@clerk/clerk-sdk-node";
 
 // export const generateBackendToken = async (req, res) => {
@@ -90,15 +92,31 @@ export const generateBackendToken = async (req, res) => {
 
 
 
-export const GetAllFavoritePets = async(req, res) => {
-    // const 
-}
+// ✅ Add/Remove favourite (toggle)
+export const toggleFavPet = async (req, res) => {
+  try {
+    const { userId, petId } = req.body;
 
-export const AddToFavorite = async(req, res) => {
-    const petId = req
+    // check if already exists
+    const fav = await Favourite.findOne({ userId, petId });
+    if (fav) {
+      await Favourite.deleteOne({ _id: fav._id });
+      return res.json({ success: true, message: "Removed from favourites" });
+    }
 
-}
+    const newFav = new Favourite({ userId, petId });
+    await newFav.save();
+    res.json({ success: true, message: "Added to favourites" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
 
-export const RemoveFromFavourite = async(req, res) => {
-
-}
+export const GetAllFavPet = async (req, res) => {
+  try {
+    const favourites = await Favourite.find({ userId: req.params.userId }).populate("petId");
+    res.json(favourites);
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
